@@ -14,4 +14,7 @@ node {
        sh 'docker tag nodejsapp:latest 117357342131.dkr.ecr.us-east-1.amazonaws.com/nodejsapp:latest'
     stage('Image push')
        sh 'docker push 117357342131.dkr.ecr.us-east-1.amazonaws.com/nodejsapp:latest'
+    
+    stage('Deploy Image')
+       sh 'ssh -o StrictHostKeyChecking=no root@52.91.118.199 aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin 117357342131.dkr.ecr.us-east-1.amazonaws.com'
 }
