@@ -1,13 +1,18 @@
 node {
     stage('Git pull') {
-        git 'https://github.com/rajatpachare/retech.git'
+        git 'https://github.com/shivgopal/New.git'
     }
-    stage('Copy Code to Kube-Server')
+    stage('ECR login')
     {
-        sh 'rsync -avrh * root@34.212.228.180:/root/retech'
+        sh 'aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin 117357342131.dkr.ecr.us-east-1.amazonaws.com'
     }
-    stage('Deployment on Kube')
+    stage('docker build')
     {
-       sh 'ssh root@34.212.228.180 ./kube.sh' 
+       sh 'docker build -t nodejsapp .' 
     }
+    stage('Docker image tag')
+       sh 'docker tag nodejsapp:latest 117357342131.dkr.ecr.us-east-1.amazonaws.com/nodejsapp:latest'
+    stage('Image push')
+       sh 'docker push 117357342131.dkr.ecr.us-east-1.amazonaws.com/nodejsapp:latest'
+} 		
 }
