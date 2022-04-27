@@ -1,0 +1,25 @@
+{
+    "family": "task1",
+    "executionRoleArn": "arn:aws:iam::117357342131:role/ecsTaskExecutionRole",
+    "containerDefinitions": [
+        {
+            "image": "117357342131.dkr.ecr.us-east-1.amazonaws.com/nodejsapp:latest",
+            "name": "cont",
+            "cpu": 512,
+            "memory": 1000,
+            "essential": true,
+            "portMappings": [
+                {
+                    "containerPort": 3000,
+                    "hostPort": 3000
+                }
+            ],
+            "environment": [
+                {
+                    "name": "BW_LOGLEVEL",
+                    "value": "DEBUG"
+                }
+	    ] 
+	    }
+        ]
+}
