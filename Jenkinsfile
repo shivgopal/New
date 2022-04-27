@@ -17,5 +17,7 @@ node {
     
     stage('Deploy Image')
        sh 'aws ecs register-task-definition --family new --cli-input-json file://task.json --region us-east-1'
-       sh 'aws ecs create-service --service-name new --desired-count 1 --task-definition new --cluster new'
+       sh 'abc=$(aws ecs list-tasks --cluster new | rev | cut -d "/" -f 1 | rev)'
+       sh 'aws ecs stop-task --cluster new --task $abc'
+       sh 'aws ecs run-task --cluster new --launch-type EC2 --task-definition new'
 }
